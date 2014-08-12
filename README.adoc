@@ -110,5 +110,5 @@ The following example shows the configuration required for processing files in a
 | mappings       | List<Map<String,String>> |         | takes precedence over +paths+
 | paths          | List<String>             |         |
 | mergeStrategy  | String                   | +first+ | valid values are +first+, +append+, +latest+
-| mergeSeparator | String                   |         | used when +mergeStrategy = append+
+| mergeSeparator | String                   | +,+     | used when +mergeStrategy = append+
 |===
