@@ -1,0 +1,114 @@
+= Maven Shade Plugin - Extra Transformers
+:author: Andres Almiray
+:version: 1.0.0
+:project-name: maven-shade-ext-transformers
+:source-highlighter: coderay
+:coderay-linenums-mode: inline
+
+image:http://img.shields.io/travis/aalmiray/{project-name}/master.svg["Build Status", link="https://travis-ci.org/aalmiray/{project-name}"]
+image:http://img.shields.io/coveralls/aalmiray/{project-name}/master.svg["Coverage Status", link="https://coveralls.io/r/aalmiray/{project-name}"]
+image:http://img.shields.io/:semver-{version}-blue.svg["Semantic Versioning", link="http://semver.org"]
+image:http://img.shields.io/badge/license-ASF2-blue.svg["Apache License 2", link="http://www.apache.org/licenses/LICENSE-2.0.txt"]
+image:http://img.shields.io/badge/download-latest-bb00bb.svg[link="https://bintray.com/aalmiray/kordamp/{project-name}/_latestVersion"]
+
+---
+
+Additional transformers for http://maven.apache.org/plugins/maven-shade-plugin/[maven-shade-plugin].
+Some of the provided transformers are based on code contributed to the
+https://github.com/johnrengelman/shadow[Gradle's Shadow plugin] originating from the
+https://github.com/griffon/griffon[Griffon] codebase.
+
+== Configuration
+
+You must add +{project-name}+ as a dependency to the the +maven-shade-plugin+
+
+[source,xml,linenums]
+[subs="attributes,verbatim"]
+----
+<build>
+    <plugins>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-shade-plugin</artifactId>
+            <version>2.3</version>
+            <configuration>
+                <!-- configure transformers -->
+            </configuration>
+            <executions>
+                <execution>
+                    <phase>package</phase>
+                    <goals>
+                        <goal>shade</goal>
+                    </goals>
+                </execution>
+            </executions>
+            <dependencies>
+                <dependency>
+                    <groupId>org.kordamp.shade</groupId>
+                    <artifactId>{project-name}</artifactId>
+                    <version>{version}</version>
+                </dependency>
+            </dependencies>
+        </plugin>
+    </plugins>
+</build>
+----
+
+Now specify transformers as needed inside the plugin's +configuration+ section.
+
+== Transformers
+
+The following transformers are available in version {version}:
+
+=== ServicesResourceTransformer
+
+This transformer performs the same task as +org.apache.maven.plugins.shade.resource.ServicesResourceTransformer+ however
+it exposes a configurable +path+ property, where as the original wilkl always transfom +'META-INF/services'+.
+
+The following example shows the configuration required for processing files in a Griffon application project
+
+[source,xml,linenums]
+[subs="attributes,verbatim"]
+----
+<configuration>
+    <transformer implementation="org.kordamp.shade.resources.ServicesResourceTransformer">
+        <path>META-INF/griffon</path>
+    </transformer>
+</configuration>
+----
+
+.Properties
+[cols="3*",options="header"]
+|===
+| Name | Type   | Default
+| path | String | +META-INF/services+
+|===
+
+=== PropertiesFileTransformer
+
+This transformer can merge properties files using a few strategies when duplicate keys are found. It will automatically
+merge properties files ending with +.properties+ using +first+ as default merge strategy.
+
+The following example shows the configuration required for processing files in a Griffon application project
+
+[source,xml,linenums]
+[subs="attributes,verbatim"]
+----
+<configuration>
+    <transformer implementation="org.kordamp.shade.resources.PropertiesFileTransformer">
+        <paths>
+            <path>META-INF/editors/java.beans.PropertyEditor</path>
+        </paths>
+    </transformer>
+</configuration>
+----
+
+.Properties
+[cols="4*",options="header"]
+|===
+| Name           | Type                     | Default | Notes
+| mappings       | List<Map<String,String>> |         | takes precedence over +paths+
+| paths          | List<String>             |         |
+| mergeStrategy  | String                   | +first+ | valid values are +first+, +append+, +latest+
+| mergeSeparator | String                   |         | used when +mergeStrategy = append+
+|===
