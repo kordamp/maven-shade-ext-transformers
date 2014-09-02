@@ -63,7 +63,7 @@ The following transformers are available in version {version}:
 === ServicesResourceTransformer
 
 This transformer performs the same task as +org.apache.maven.plugins.shade.resource.ServicesResourceTransformer+ however
-it exposes a configurable +path+ property, where as the original wilkl always transfom +'META-INF/services'+.
+it exposes a configurable +path+ property, where as the original will always transfom +'META-INF/services'+.
 
 The following example shows the configuration required for processing files in a Griffon application project
 
@@ -89,7 +89,7 @@ The following example shows the configuration required for processing files in a
 This transformer can merge properties files using a few strategies when duplicate keys are found. It will automatically
 merge properties files ending with +.properties+ using +first+ as default merge strategy.
 
-The following example shows the configuration required for processing files in a Griffon application project
+The following example shows the configuration required for processing files in a Griffon application project:
 
 [source,xml,linenums]
 [subs="attributes,verbatim"]
