@@ -90,7 +90,7 @@ import java.util.jar.JarOutputStream;
  * taken from the global settings.</p>
  *
  * <p>The <tt>mappings</tt> property allows you to define merge strategy and separator per
- * path</p>. If either <tt>paths</tt> or <tt>mappings</tt> is defined then no other path
+ * path. If either <tt>paths</tt> or <tt>mappings</tt> is defined then no other path
  * entries will be merged. <tt>mappings</tt> has precedence over <tt>paths</tt> if both
  * are defined.</p>
  *

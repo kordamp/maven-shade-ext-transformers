@@ -41,9 +41,9 @@ dependencyUpdates.resolutionStrategy = {
 }
 
 dependencies {
-    compileOnly     'org.apache.maven.plugins:maven-shade-plugin:2.3'
-    testCompileOnly 'org.apache.maven.plugins:maven-shade-plugin:2.3'
-    testRuntime     'org.apache.maven.plugins:maven-shade-plugin:2.3'
+    compileOnly     'org.apache.maven.plugins:maven-shade-plugin:3.0.0'
+    testCompileOnly 'org.apache.maven.plugins:maven-shade-plugin:3.0.0'
+    testRuntime     'org.apache.maven.plugins:maven-shade-plugin:3.0.0'
     testCompile 'junit:junit:4.12'
     testCompile('org.spockframework:spock-core:1.1-groovy-2.4')
 }
