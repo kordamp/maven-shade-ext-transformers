@@ -1,6 +1,6 @@
 = Maven Shade Plugin - Extra Transformers
 :author: Andres Almiray
-:version: 1.0.1
+:version: 1.0.2
 :project-name: maven-shade-ext-transformers
 :source-highlighter: coderay
 :coderay-linenums-mode: inline
