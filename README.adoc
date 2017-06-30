@@ -21,7 +21,7 @@ https://github.com/griffon/griffon[Griffon] codebase.
 
 == Configuration
 
-You must add +{project-name}+ as a dependency to the the +maven-shade-plugin+
+You must add `{project-name}` as a dependency to the the `maven-shade-plugin`
 
 [source,xml,linenums]
 [subs="attributes,verbatim"]
@@ -55,7 +55,7 @@ You must add +{project-name}+ as a dependency to the the +maven-shade-plugin+
 </build>
 ----
 
-Now specify transformers as needed inside the plugin's +configuration+ section.
+Now specify transformers as needed inside the plugin's `configuration` section.
 
 == Transformers
 
@@ -63,8 +63,8 @@ The following transformers are available in version {version}:
 
 === ServicesResourceTransformer
 
-This transformer performs the same task as +org.apache.maven.plugins.shade.resource.ServicesResourceTransformer+ however
-it exposes a configurable +path+ property, where as the original will always transfom +'META-INF/services'+.
+This transformer performs the same task as `org.apache.maven.plugins.shade.resource.ServicesResourceTransformer` however
+it exposes a configurable `path` property, where as the original will always transfom `'META-INF/services'`.
 
 The following example shows the configuration required for processing files in a Griffon application project
 
@@ -82,7 +82,7 @@ The following example shows the configuration required for processing files in a
 [cols="3*",options="header"]
 |===
 | Name | Type   | Default
-| path | String | +META-INF/services+
+| path | String | `META-INF/services`
 |===
 
 === PropertiesFileTransformer
@@ -110,6 +110,6 @@ The following example shows the configuration required for processing files in a
 | Name           | Type                     | Default | Notes
 | mappings       | List<Map<String,String>> |         | takes precedence over +paths+
 | paths          | List<String>             |         |
-| mergeStrategy  | String                   | +first+ | valid values are +first+, +append+, +latest+
-| mergeSeparator | String                   | +,+     | used when +mergeStrategy = append+
+| mergeStrategy  | String                   | `first` | valid values are `first`, `append`, `latest`
+| mergeSeparator | String                   | `,`     | used when `mergeStrategy = append`
 |===
