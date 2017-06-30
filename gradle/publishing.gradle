@@ -16,6 +16,7 @@ jar {
             'Created-By': System.properties['java.version'] + " (" + System.properties['java.vendor'] + " " + System.properties['java.vm.version'] + ")",
             'Build-Date': project.buildDate,
             'Build-Time': project.buildTime,
+            'Build-Revision': versioning.info.commit,
             'Specification-Title': project.name,
             'Specification-Version': project.version,
             'Specification-Vendor': project.project_vendor,
@@ -28,7 +29,6 @@ jar {
 
 def pomConfig = {
     name project.name
-    description project.project_description
     url project.project_url
     inceptionYear '2014'
     licenses {
@@ -61,9 +61,11 @@ publishing {
         mavenCustom(MavenPublication) {
             from components.java
             artifact sourceJar
+            artifact javadocJar
 
             pom.withXml {
                 asNode().children().last() + pomConfig
+                asNode().appendNode('description', project_description)
             }
         }
     }

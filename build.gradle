@@ -4,64 +4,48 @@ buildscript {
     }
 
     dependencies {
-        classpath 'net.saliman:gradle-cobertura-plugin:2.2.4'
-        classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.0.0'
+        classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.8.1'
         classpath 'nl.javadude.gradle.plugins:license-gradle-plugin:0.11.0'
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:0.5'
-        classpath 'org.ajoberstar:gradle-git:0.9.0'
-        classpath 'org.kordamp.gradle:stats-gradle-plugin:0.1.1'
-        classpath 'com.github.ben-manes:gradle-versions-plugin:0.5-beta-6'
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
+        classpath 'org.kordamp.gradle:stats-gradle-plugin:0.2.0'
+        classpath 'com.github.ben-manes:gradle-versions-plugin:0.15.0'
+        classpath 'net.nemerosa:versioning:2.6.0'
     }
 }
 
 apply plugin: 'idea'
 apply plugin: 'groovy'
 apply plugin: 'com.github.kt3k.coveralls'
-apply plugin: 'build-dashboard'
 apply plugin: 'org.kordamp.gradle.stats'
 apply plugin: 'com.github.ben-manes.versions'
+apply plugin: 'net.nemerosa.versioning'
 apply from: 'gradle/publishing.gradle'
 apply from: 'gradle/code-coverage.gradle'
 apply from: 'gradle/code-quality.gradle'
-
-configurations {
-    compileOnly
-    testCompileOnly
-    testRuntimeOnly
-}
 
 repositories {
     jcenter()
 }
 
+dependencyUpdates.resolutionStrategy = {
+    componentSelection { rules ->
+        rules.all { selection ->
+            boolean rejected = ['alpha', 'beta', 'rc', 'cr', 'pr'].any { qualifier ->
+                selection.candidate.version ==~ /(?i).*[.-]${qualifier}[.\d-]*/
+            }
+            if (rejected) {
+                selection.reject('Release candidate')
+            }
+        }
+    }
+}
+
 dependencies {
-    compileOnly 'org.apache.maven.plugins:maven-shade-plugin:2.3'
+    compileOnly     'org.apache.maven.plugins:maven-shade-plugin:2.3'
     testCompileOnly 'org.apache.maven.plugins:maven-shade-plugin:2.3'
-    testRuntimeOnly 'org.apache.maven.plugins:maven-shade-plugin:2.3'
-    testCompile 'junit:junit:4.11'
-    testCompile('org.spockframework:spock-core:0.7-groovy-2.0')
-}
-
-sourceSets {
-    main {
-        compileClasspath += [configurations.compileOnly]
-    }
-    test {
-        compileClasspath += [configurations.testCompileOnly]
-        runtimeClasspath += [configurations.testRuntimeOnly]
-    }
-}
-
-javadoc {
-    classpath += [configurations.compileOnly]
-}
-
-idea {
-    module {
-        scopes.PROVIDED.plus += [configurations.compileOnly]
-        scopes.PROVIDED.plus += [configurations.testCompileOnly]
-        scopes.PROVIDED.plus += [configurations.testRuntimeOnly]
-    }
+    testRuntime     'org.apache.maven.plugins:maven-shade-plugin:2.3'
+    testCompile 'junit:junit:4.12'
+    testCompile('org.spockframework:spock-core:1.1-groovy-2.4')
 }
 
 task sourceJar(type: Jar) {
@@ -71,24 +55,30 @@ task sourceJar(type: Jar) {
     from sourceSets.main.allSource
 }
 
+task javadocJar(type: Jar) {
+    group 'Build'
+    description 'An archive of the javadoc'
+    from javadoc.outputs
+    classifier 'javadoc'
+}
+
 jar.finalizedBy sourceJar
+jar.finalizedBy javadocJar
 
 artifacts {
     sourceJar
+    javadocJar
 }
+
+tasks.withType(JavaCompile) {
+    sourceCompatibility = project.sourceCompatibility
+    targetCompatibility = project.targetCompatibility
+}
+
+tasks.withType(GroovyCompile) {
+    sourceCompatibility = project.sourceCompatibility
+    targetCompatibility = project.targetCompatibility
+}
+
 
 compileGroovy.enabled = false
-
-gradle.taskGraph.whenReady {
-    def createIfNotExists = { File dir ->
-        if (!dir.exists()) {
-            dir.mkdirs()
-        }
-    }
-
-    String sourceSetName = project.plugins.hasPlugin('groovy') ? 'groovy' : 'java'
-    sourceSets.main[sourceSetName].srcDirs.each(createIfNotExists)
-    sourceSets.test[sourceSetName].srcDirs.each(createIfNotExists)
-    sourceSets.main.resources.srcDirs.each(createIfNotExists)
-    sourceSets.test.resources.srcDirs.each(createIfNotExists)
-}
