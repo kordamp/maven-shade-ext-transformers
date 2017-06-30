@@ -52,6 +52,7 @@ public class ServicesResourceTransformer implements ResourceTransformer {
 
     @Override
     public boolean canTransformResource(String resource) {
+        String path = this.path.endsWith("/") ? this.path : this.path + "/";
         return resource.startsWith(path);
     }
 

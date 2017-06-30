@@ -35,6 +35,7 @@ class ServicesResourceTransformerSpec extends Specification {
         'META-INF/services' | 'META-INF/services/java.lang.Object'                       || true
         'META-INF/griffon'  | 'META-INF/griffon/griffon.core.artifact.GriffonController' || true
         'META-INF/services' | 'META-INF/griffon/griffon.core.artifact.GriffonController' || false
+        'META-INF/griffon'  | 'META-INF/griffon-core.properties'                         || false
 
         transform = expected ? 'can be' : 'can not be'
     }

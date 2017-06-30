@@ -1,6 +1,6 @@
 = Maven Shade Plugin - Extra Transformers
 :author: Andres Almiray
-:version: 1.0.2
+:version: 1.0.3
 :username: aalmiray
 :project-name: maven-shade-ext-transformers
 :project-package: org.kordamp.shade
