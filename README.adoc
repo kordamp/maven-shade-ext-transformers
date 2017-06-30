@@ -1,6 +1,6 @@
 = Maven Shade Plugin - Extra Transformers
 :author: Andres Almiray
-:version: 1.0.0
+:version: 1.0.1
 :project-name: maven-shade-ext-transformers
 :source-highlighter: coderay
 :coderay-linenums-mode: inline
@@ -10,6 +10,7 @@ image:http://img.shields.io/coveralls/aalmiray/{project-name}/master.svg["Covera
 image:http://img.shields.io/:semver-{version}-blue.svg["Semantic Versioning", link="http://semver.org"]
 image:http://img.shields.io/badge/license-ASF2-blue.svg["Apache License 2", link="http://www.apache.org/licenses/LICENSE-2.0.txt"]
 image:http://img.shields.io/badge/download-latest-bb00bb.svg[link="https://bintray.com/aalmiray/kordamp/{project-name}/_latestVersion"]
+image:https://img.shields.io/badge/donations-Patreon-orange.svg[link="https://www.patreon.com/aalmiray"]
 
 ---
 
