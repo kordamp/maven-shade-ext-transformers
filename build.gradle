@@ -38,6 +38,12 @@ config {
             }
         }
     }
+
+    coverage {
+        jacoco {
+            toolVersion = jacocoVersion
+        }
+    }
 }
 
 allprojects {
@@ -70,10 +76,10 @@ compileGroovy.enabled = false
 
 configurations.all {
     resolutionStrategy.force 'org.codehaus.plexus:plexus-utils:3.0.24',
-        'org.ow2.asm:asm:5.1',
-        'org.ow2.asm:asm-commons:5.1',
-        'org.ow2.asm:asm-tree:5.1',
+        "org.ow2.asm:asm:$asmVersion",
+        "org.ow2.asm:asm-commons:$asmVersion",
+        "org.ow2.asm:asm-analysis:$asmVersion",
+        "org.ow2.asm:asm-tree:$asmVersion",
         'commons-io:commons-io:2.5',
-        'org.codehaus.plexus:plexus-component-annotations:1.7',
-        'org.ow2.asm:asm-tree between:5.1'
+        'org.codehaus.plexus:plexus-component-annotations:1.7'
 }
