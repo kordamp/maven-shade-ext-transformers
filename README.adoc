@@ -1,20 +1,19 @@
 = Maven Shade Plugin - Extra Transformers
-:author: Andres Almiray
-:version: 1.0.3
-:username: aalmiray
-:project-name: maven-shade-ext-transformers
-:project-package: org.kordamp.shade
-:source-highlighter: coderay
+:linkattrs:
+:author:                Andres Almiray
+:project-owner:         kordamp
+:project-repo:          maven
+:project-name:          maven-shade-ext-transformers
+:project-group:         org.kordamp.shade
+:project-version:       1.1.0
+:source-highlighter:    coderay
 :coderay-linenums-mode: inline
 
-image:http://img.shields.io/travis/{username}/{project-name}/master.svg["Build Status", link="https://travis-ci.org/{username}/{project-name}"]
-image:http://img.shields.io/coveralls/{username}/{project-name}/master.svg["Coverage Status", link="https://coveralls.io/r/{username}/{project-name}"]
-image:http://img.shields.io/:semver-{version}-blue.svg["Semantic Versioning", link="http://semver.org"]
-image:http://img.shields.io/badge/license-ASF2-blue.svg["Apache License 2", link="http://www.apache.org/licenses/LICENSE-2.0.txt"]
-image:https://img.shields.io/badge/donations-Patreon-f96854.svg[link="https://www.patreon.com/{username}"]
-
-image:https://img.shields.io/maven-central/v/{project-package}/{project-name}.svg[Download, link="https://search.maven.org/#search|ga|1|{project-name}"]
-image:http://img.shields.io/badge/bintray-v{version}-brightgreen.svg[link="https://bintray.com/{username}/kordamp/{project-name}/_latestVersion"]
+image:http://img.shields.io/travis/{project-owner}/{project-name}/master.svg["Build Status (travis)", link="https://travis-ci.org/{project-owner}/{project-name}"]
+image:http://img.shields.io/badge/license-ASL2-blue.svg["ASL2 Licensed", link="http://opensource.org/licenses/ASL2"]
+image:https://api.bintray.com/packages/{project-owner}/{project-repo}/{project-name}/images/download.svg[link="https://bintray.com/{project-owner}/{project-repo}/{project-name}/_latestVersion"]
+image:https://img.shields.io/maven-central/v/{project-group}/{project-name}.svg?label=maven[link="https://search.maven.org/#search|ga|1|{project-group}"]
+image:https://img.shields.io/badge/donations-Patreon-orange.svg[link="https://www.patreon.com/user?u=6609318"]
 
 ---
 
@@ -35,7 +34,7 @@ You must add `{project-name}` as a dependency to the the `maven-shade-plugin`
         <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-shade-plugin</artifactId>
-            <version>3.0.0</version>
+            <version>3.2.1</version>
             <configuration>
                 <!-- configure transformers -->
             </configuration>
@@ -51,7 +50,7 @@ You must add `{project-name}` as a dependency to the the `maven-shade-plugin`
                 <dependency>
                     <groupId>{project-package}</groupId>
                     <artifactId>{project-name}</artifactId>
-                    <version>{version}</version>
+                    <version>{project-version}</version>
                 </dependency>
             </dependencies>
         </plugin>
