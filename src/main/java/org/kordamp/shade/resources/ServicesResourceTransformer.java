@@ -30,7 +30,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.StringReader;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.jar.JarEntry;
@@ -41,7 +41,7 @@ import java.util.jar.JarOutputStream;
  */
 public class ServicesResourceTransformer implements ResourceTransformer {
     private String path = "META-INF/services";
-    private Map<String, ServiceStream> serviceEntries = new HashMap<String, ServiceStream>();
+    private Map<String, ServiceStream> serviceEntries = new LinkedHashMap<String, ServiceStream>();
     private List<Relocator> relocators;
 
     public String getPath() {
@@ -59,8 +59,7 @@ public class ServicesResourceTransformer implements ResourceTransformer {
     }
 
     @Override
-    public void processResource(String resource, InputStream is, final List<Relocator> relocators)
-        throws IOException {
+    public void processResource(String resource, InputStream is, List<Relocator> relocators, long time) throws IOException {
         ServiceStream out = serviceEntries.get(resource);
         if (out == null) {
             out = new ServiceStream();

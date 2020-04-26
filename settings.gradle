@@ -19,12 +19,32 @@ pluginManagement {
     repositories {
         jcenter()
         gradlePluginPortal()
-		mavenLocal()
+        mavenLocal()
     }
     plugins {
-        id 'org.kordamp.gradle.kordamp-parentpom' version kordampPomVersion
+        id 'org.kordamp.gradle.java-project' version kordampPluginVersion
     }
 }
 
+buildscript {
+    repositories {
+        gradlePluginPortal()
+        jcenter()
+        mavenLocal()
+    }
+    dependencies {
+        classpath "org.kordamp.gradle:kordamp-parentbuild:$kordampBuildVersion"
+    }
+}
+apply plugin: 'org.kordamp.gradle.kordamp-parentbuild'
+
 rootProject.name = 'maven-shade-ext-transformers'
 
+enforce {
+    rule(enforcer.rules.ForceDependencies) { r ->
+        r.dependencies.addAll 'org.codehaus.plexus:plexus-utils:3.3.0',
+            'org.codehaus.plexus:plexus-component-annotations:1.7.1',
+            'commons-io:commons-io:2.6',
+            'junit:junit:4.13'
+    }
+}
