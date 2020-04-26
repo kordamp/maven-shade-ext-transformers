@@ -5,7 +5,7 @@
 :project-repo:          maven
 :project-name:          maven-shade-ext-transformers
 :project-group:         org.kordamp.shade
-:project-version:       1.1.0
+:project-version:       1.2.0
 :source-highlighter:    coderay
 :coderay-linenums-mode: inline
 
