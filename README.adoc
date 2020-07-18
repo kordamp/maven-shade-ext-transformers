@@ -5,7 +5,7 @@
 :project-repo:          maven
 :project-name:          maven-shade-ext-transformers
 :project-group:         org.kordamp.shade
-:project-version:       1.2.0
+:project-version:       1.3.0
 :source-highlighter:    coderay
 :coderay-linenums-mode: inline
 
@@ -35,7 +35,7 @@ You must add `{project-name}` as a dependency to the the `maven-shade-plugin`
         <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-shade-plugin</artifactId>
-            <version>3.2.1</version>
+            <version>3.2.4</version>
             <configuration>
                 <!-- configure transformers -->
             </configuration>

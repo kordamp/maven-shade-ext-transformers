@@ -49,8 +49,8 @@ class PropertiesFileTransformerSpec extends Specification {
 
         when:
         if (transformer.canTransformResource(path)) {
-            transformer.processResource(path, toInputStream(toProperties(input1)), [], 0L)
-            transformer.processResource(path, toInputStream(toProperties(input2)), [], 0L)
+            transformer.processResource(path, toInputStream(toProperties(input1)), [])
+            transformer.processResource(path, toInputStream(toProperties(input2)), [])
         }
 
         then:
@@ -72,8 +72,8 @@ class PropertiesFileTransformerSpec extends Specification {
 
         when:
         if (transformer.canTransformResource(path)) {
-            transformer.processResource(path, toInputStream(toProperties(input1)), [], 0L)
-            transformer.processResource(path, toInputStream(toProperties(input2)), [], 0L)
+            transformer.processResource(path, toInputStream(toProperties(input1)), [])
+            transformer.processResource(path, toInputStream(toProperties(input2)), [])
         }
 
         then:
@@ -95,8 +95,8 @@ class PropertiesFileTransformerSpec extends Specification {
 
         when:
         if (transformer.canTransformResource(path)) {
-            transformer.processResource(path, toInputStream(toProperties(input1)), [], 0L)
-            transformer.processResource(path, toInputStream(toProperties(input2)), [], 0L)
+            transformer.processResource(path, toInputStream(toProperties(input1)), [])
+            transformer.processResource(path, toInputStream(toProperties(input2)), [])
         }
 
         then:

@@ -135,7 +135,7 @@ public class PropertiesFileTransformer implements ResourceTransformer {
     }
 
     @Override
-    public void processResource(String resource, InputStream is, List<Relocator> relocators, long time) throws IOException {
+    public void processResource(String resource, InputStream is, List<Relocator> relocators) throws IOException {
         Properties props = propertiesEntries.get(resource);
         if (props == null) {
             props = new Properties();

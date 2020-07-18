@@ -59,7 +59,7 @@ public class ServicesResourceTransformer implements ResourceTransformer {
     }
 
     @Override
-    public void processResource(String resource, InputStream is, List<Relocator> relocators, long time) throws IOException {
+    public void processResource(String resource, InputStream is, List<Relocator> relocators) throws IOException {
         ServiceStream out = serviceEntries.get(resource);
         if (out == null) {
             out = new ServiceStream();
