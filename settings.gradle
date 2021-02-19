@@ -1,7 +1,7 @@
 /*
  * SPDX-License-Identifier: Apache-2.0
  *
- * Copyright 2014-2020 Andres Almiray.
+ * Copyright 2014-2021 Andres Almiray.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -45,6 +45,6 @@ enforce {
         r.dependencies.addAll 'org.codehaus.plexus:plexus-utils:3.3.0',
             'org.codehaus.plexus:plexus-component-annotations:1.7.1',
             'commons-io:commons-io:2.6',
-            'junit:junit:4.13'
+            'junit:junit:4.13.2'
     }
 }

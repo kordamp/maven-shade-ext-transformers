@@ -49,7 +49,7 @@ You must add `{project-name}` as a dependency to the the `maven-shade-plugin`
             </executions>
             <dependencies>
                 <dependency>
-                    <groupId>{project-package}</groupId>
+                    <groupId>{project-group}</groupId>
                     <artifactId>{project-name}</artifactId>
                     <version>{project-version}</version>
                 </dependency>
