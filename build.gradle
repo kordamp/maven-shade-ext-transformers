@@ -19,6 +19,7 @@ plugins {
     id 'java-library'
     id 'groovy'
     id 'org.kordamp.gradle.java-project'
+    id 'io.github.gradle-nexus.publish-plugin' version '1.0.0'
 }
 
 config {
@@ -43,6 +44,14 @@ config {
         jacoco {
             toolVersion = jacocoVersion
         }
+    }
+
+    publishing {
+        signing = true
+    }
+
+    bintray {
+        enabled = false
     }
 }
 
@@ -73,3 +82,20 @@ dependencies {
 }
 
 compileGroovy.enabled = false
+
+signing {
+    String signingKeyId = findProperty('signingKeyId')
+    String signingKey = findProperty('signingKey')
+    String signingPassword = findProperty('signingPassword')
+    useInMemoryPgpKeys(signingKeyId, signingKey, signingPassword)
+}
+
+nexusPublishing {
+    repositories {
+        sonatype {
+            nexusUrl = uri('https://s01.oss.sonatype.org/service/local/')
+            username = project.ext.sonatypeUsername
+            password = project.ext.sonatypePassword
+        }
+    }
+}
