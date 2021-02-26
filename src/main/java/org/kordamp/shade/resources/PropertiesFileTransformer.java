@@ -17,14 +17,17 @@
  */
 package org.kordamp.shade.resources;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.maven.plugins.shade.relocation.Relocator;
-import org.apache.maven.plugins.shade.resource.ResourceTransformer;
+import org.apache.maven.plugins.shade.resource.ReproducibleResourceTransformer;
 import org.codehaus.plexus.util.IOUtil;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.StringReader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -43,7 +46,7 @@ import java.util.jar.JarOutputStream;
  * merge strategy is 'append' then the property values will be combined, using a
  * merge separator (default value is ','). The merge separator can be changed by
  * setting a value for the <tt>mergeSeparator</tt> property.</p>
- *
+ * <p>
  * Say there are two properties files A and B with the
  * following entries:
  *
@@ -58,7 +61,7 @@ import java.util.jar.JarOutputStream;
  *   <li>key2 = balue2</li>
  *   <li>key3 = value3</li>
  * </ul>
- *
+ * <p>
  * With <tt>mergeStrategy = first</tt> you get
  *
  * <strong>C</strong>
@@ -67,7 +70,7 @@ import java.util.jar.JarOutputStream;
  *   <li>key2 = value2</li>
  *   <li>key3 = value3</li>
  * </ul>
- *
+ * <p>
  * With <tt>mergeStrategy = latest</tt> you get
  *
  * <strong>C</strong>
@@ -76,7 +79,7 @@ import java.util.jar.JarOutputStream;
  *   <li>key2 = balue2</li>
  *   <li>key3 = value3</li>
  * </ul>
- *
+ * <p>
  * With <tt>mergeStrategy = append</tt> and <tt>mergeSparator = ;</tt> you get
  *
  * <strong>C</strong>
@@ -98,7 +101,7 @@ import java.util.jar.JarOutputStream;
  *
  * @author Andres Almiray
  */
-public class PropertiesFileTransformer implements ResourceTransformer {
+public class PropertiesFileTransformer implements ReproducibleResourceTransformer {
     private static final String PROPERTIES_SUFFIX = ".properties";
     private static final String KEY_MERGE_STRATEGY = "mergeStrategy";
     private static final String KEY_MERGE_SEPARATOR = "mergeSeparator";
@@ -110,6 +113,7 @@ public class PropertiesFileTransformer implements ResourceTransformer {
     private Map<String, Map<String, String>> mappings = new LinkedHashMap<>();
     private String mergeStrategy = "first"; // latest, append
     private String mergeSeparator = ",";
+    private long time = Long.MIN_VALUE;
 
     @Override
     public boolean canTransformResource(String resource) {
@@ -136,14 +140,22 @@ public class PropertiesFileTransformer implements ResourceTransformer {
 
     @Override
     public void processResource(String resource, InputStream is, List<Relocator> relocators) throws IOException {
+        processResource(resource, is, relocators, 0);
+    }
+
+    @Override
+    public void processResource(String resource, InputStream is, List<Relocator> relocators, long time) throws IOException {
+        final String content = IOUtils.toString(is, StandardCharsets.UTF_8);
+        StringReader reader = new StringReader(content);
+
         Properties props = propertiesEntries.get(resource);
         if (props == null) {
             props = new Properties();
-            props.load(is);
+            props.load(reader);
             propertiesEntries.put(resource, props);
         } else {
             Properties incoming = new Properties();
-            incoming.load(is);
+            incoming.load(reader);
             for (String key : incoming.stringPropertyNames()) {
                 String value = incoming.getProperty(key);
                 if (props.containsKey(key)) {
@@ -165,6 +177,10 @@ public class PropertiesFileTransformer implements ResourceTransformer {
                 }
             }
         }
+
+        if (time > this.time) {
+            this.time = time;
+        }
     }
 
     @Override
@@ -175,19 +191,15 @@ public class PropertiesFileTransformer implements ResourceTransformer {
     @Override
     public void modifyOutputStream(JarOutputStream os) throws IOException {
         for (Map.Entry<String, Properties> e : propertiesEntries.entrySet()) {
-            os.putNextEntry(new JarEntry(e.getKey()));
+            JarEntry jarEntry = new JarEntry(e.getKey());
+            jarEntry.setTime(time);
+            os.putNextEntry(jarEntry);
             IOUtil.copy(toInputStream(e.getValue()), os);
             os.closeEntry();
         }
     }
 
     // == Private
-
-    private static InputStream toInputStream(Properties props) throws IOException {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        props.store(baos, "");
-        return new ByteArrayInputStream(baos.toByteArray());
-    }
 
     private String mergeStrategyFor(String path) {
         if (mappings.containsKey(path)) {
@@ -221,12 +233,12 @@ public class PropertiesFileTransformer implements ResourceTransformer {
         return value != null && value.trim().length() > 0 ? value : defaultValue;
     }
 
-    // == Properties
-
     // made public for testing
     public Map<String, Properties> getPropertiesEntries() {
         return propertiesEntries;
     }
+
+    // == Properties
 
     public void setPropertiesEntries(Map<String, Properties> propertiesEntries) {
         this.propertiesEntries = propertiesEntries;
@@ -262,5 +274,11 @@ public class PropertiesFileTransformer implements ResourceTransformer {
 
     public void setMergeSeparator(String mergeSeparator) {
         this.mergeSeparator = mergeSeparator;
+    }
+
+    private static InputStream toInputStream(Properties props) throws IOException {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        props.store(baos, "");
+        return new ByteArrayInputStream(baos.toByteArray());
     }
 }
