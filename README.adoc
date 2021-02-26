@@ -11,8 +11,6 @@
 image:https://github.com/{project-owner}/{project-name}/workflows/Build/badge.svg["Build Status", link="https://github.com/{project-owner}/{project-name}/actions"]
 image:https://img.shields.io/maven-central/v/{project-group}/{project-name}.svg?label=maven[link="https://search.maven.org/#search|ga|1|g:{project-group} AND a:{project-name}"]
 
-https://search.maven.org/#search|ga|1|g:{project-group} AND a:{project-name}
-
 ---
 
 Additional transformers for http://maven.apache.org/plugins/maven-shade-plugin/[maven-shade-plugin].
